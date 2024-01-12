@@ -68,6 +68,6 @@ const reducer = produce((state: ICellState = initialState, action: Action): ICel
         default:
             return state;
     }
-});
+}, initialState);
 
 export default reducer;
