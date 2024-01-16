@@ -32,9 +32,32 @@ export interface IUpdateCellAction {
     }
 }
 
+export interface IBundleStartAction {
+    type: ActionType.BUNDLE_START,
+    payload: {
+        id: string;
+        // bundle: {
+        //     code: string,
+        //     err: string,
+        // }
+    }
+}
+
+export interface IBundleComplete {
+    type: ActionType.BUNDLE_COMPLETE,
+    payload: {
+        id: string;
+        bundle: {
+            code: string,
+            err: string,
+        }
+    }
+}
 
 export type Action =
     | IMoveCellAction
     | IDeleteCellAction
     | IInsertCellBeforeAction
-    | IUpdateCellAction;
+    | IUpdateCellAction
+    | IBundleStartAction
+    | IBundleComplete;

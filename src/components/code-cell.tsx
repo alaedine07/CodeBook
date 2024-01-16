@@ -1,31 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import CodeEditor from './code-editor';
 import Preview from './preview';
-import bundle from '../bundler';
 import Resizable from './resizable';
 import { ICell } from '../state';
 import { useActions } from '../hooks/use-actions';
+import { useTypedSelector } from '../hooks/use-typed-selector';
+import './code-cell.css';
 
 interface ICodeCellPros {
     cell: ICell
 }
 
 const CodeCell: React.FC<ICodeCellPros> = ({ cell }) => {
-    const [code, setCode] = useState('');
-    const [err, setErr]  = useState('');
-    const { updateCell } = useActions();
+    const { updateCell, createBundle } = useActions();
+    const bundle = useTypedSelector((state) => state.bundles[cell.id]);
 
     useEffect(() => {
+        if (!bundle) {
+            createBundle(cell.id, cell.data);
+            return;
+        }
         const timer = setTimeout(async () => {
-            const output = await bundle(cell.data);
-            setCode(output.code);
-            setErr(output.err);
+            createBundle(cell.id, cell.data);
         }, 1000);
 
         return () => {
             clearTimeout(timer);
-        }
-    }, [cell.data]);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cell.data, cell.id, createBundle]);
 
     return (
         <Resizable direction='vertical'>
@@ -36,7 +39,16 @@ const CodeCell: React.FC<ICodeCellPros> = ({ cell }) => {
                         onChange={(value) => updateCell(cell.id, value)}
                     />
                 </Resizable>
-                <Preview code={code} bundlingStatus={err} />
+                {
+                    !bundle || bundle.loading
+                    ?
+                    <div className='progress-cover'>
+                        <progress className='progress is-small is-primary' max="100">
+                            Loading
+                        </progress>
+                    </div>
+                    : bundle && <Preview code={bundle.code} bundlingStatus={bundle.err} />
+                }
             </div>
         </Resizable>
     );
