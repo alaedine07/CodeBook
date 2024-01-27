@@ -4,7 +4,16 @@ import { ActionType } from "../action-types";
 import { saveCells } from "../action-creators";
 import { RootState } from "../reducers";
 
-export const persistMiddleWare = ({
+// The reason for having two return statements is to set up the middleware in
+// two stages:
+
+// The first stage involves setting up the middleware function and capturing
+// the next function and any necessary variables in a closure.
+
+// The second stage involves returning the actual function that will be invoked
+// during the dispatch process, and this function includes the logic for
+// handling the action and potentially delaying the save operation.
+export const persistMiddlware = ({
   dispatch,
   getState,
 }: {
@@ -29,7 +38,7 @@ export const persistMiddleWare = ({
         }
         timer = setTimeout(() => {
           saveCells()(dispatch, getState);
-        });
+        }, 250);
       }
     };
   };

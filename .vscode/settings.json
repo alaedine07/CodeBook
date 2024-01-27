@@ -7,5 +7,14 @@
         "editor.wordWrap": "wordWrapColumn",
         "editor.wrappingIndent": "same",
         "editor.wordWrapColumn": 80,
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "editor.rulers": [80],
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wrappingIndent": "same",
+        "editor.wordWrapColumn": 80,
     }
 }

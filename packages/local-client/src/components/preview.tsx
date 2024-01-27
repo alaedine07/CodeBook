@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import './preview.css';
+import "./preview.css";
 
 interface PreviewProps {
-    code: string;
-    bundlingStatus: string;
+  code: string;
+  bundlingStatus: string;
 }
 
 const html = `
@@ -35,28 +35,27 @@ const html = `
         </html>
         `;
 
-
 const Preview: React.FC<PreviewProps> = ({ code, bundlingStatus }) => {
-    const iframe = useRef<any>();
+  const iframe = useRef<any>();
 
-    useEffect(() => {
-        iframe.current.srcdoc = html;
-        setTimeout(() => {
-            iframe.current.contentWindow.postMessage(code, '*');
-        }, 50);
-    }, [code]);
+  useEffect(() => {
+    iframe.current.srcdoc = html;
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, "*");
+    }, 50);
+  }, [code]);
 
-    return (
+  return (
     <div className="preview-wrapper">
-        <iframe
-            ref={iframe}
-            title='preview'
-            sandbox='allow-scripts'
-            srcDoc={html}
-        />
-        { bundlingStatus && <div className="preview-error">{ bundlingStatus }</div> }
+      <iframe
+        ref={iframe}
+        title="preview"
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
+      {bundlingStatus && <div className="preview-error">{bundlingStatus}</div>}
     </div>
-    );
+  );
 };
 
-export default Preview
+export default Preview;
