@@ -46,19 +46,12 @@ const reducer = produce(
         state.error = action.payload;
         return state;
       case ActionType.UPDATE_CELL:
-        // return a completly new object (Redux way)
-        return {
-          ...state,
-          data: {
-            ...state.data,
-            [action.payload.id]: {
-              ...state.data[action.payload.id],
-              data: action.payload.data,
-            },
-          },
-        };
+        const { id, data } = action.payload;
+        state.data[id].data = data;
+        return state;
       case ActionType.DELETE_CELL:
         delete state.data[action.payload.id];
+        state.order = state.order.filter((id) => id !== action.payload.id);
         return state;
       case ActionType.MOVE_CELL:
         const direction = action.payload.direction;

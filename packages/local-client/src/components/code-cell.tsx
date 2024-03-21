@@ -43,7 +43,7 @@ const CodeCell: React.FC<ICodeCellPros> = ({ cell }) => {
       >
         <Resizable direction="horizontal">
           <CodeEditor
-            initialValue={cumulativeCode}
+            initialValue={cell.data}
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
